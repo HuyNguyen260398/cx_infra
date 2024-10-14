@@ -13,9 +13,16 @@ spec:
         app: jenkins
     spec:
       containers:
-      - name: jenkins
-        image: jenkins/jenkins:latest
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        - name: jenkins
+          image: jenkins/jenkins:latest
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: jenkins-volume
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-volume
+          persistentVolumeClaim:
+            claimName: host-pvc
